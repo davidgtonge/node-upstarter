@@ -28,6 +28,7 @@ program
   .option('-u, --user <user>', 'System user to run under (default: root)', 'root')
   .option('-f, --files <num>', 'Set max file descriptors (default: 1000000)', Number, 1000000)
   .option('-c, --cwd <dir>', 'Working directory for process (default: cwd)', process.cwd())
+  .option('-e, --env <string>', 'Any environment variables')
   .option('--no-respawn', 'Don\'t respawn automatically')
 
 var idx = process.argv.indexOf('--');
@@ -60,6 +61,7 @@ else {
     user: 'System user to run under: ',
     files: 'Set max file descriptors: ',
     cwd: 'Working directory for process: ',
+    env: "Any environment variables (FOO=bar)",
     respawn: 'Respawn automatically? (y/n): '
   }, tasks = [];
   Object.keys(prompts).forEach(function (k) {

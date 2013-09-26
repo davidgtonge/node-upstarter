@@ -1,0 +1,6 @@
+utility script so that can have as a dependency
+then on any machine, we can just git pull
+
+npm run upstart
+npm run monit
+npm

@@ -2,24 +2,37 @@
 
 description "{{description}}"
 
+{{#if env}}
+env {{env}}
+{{/if}}
+env USER={{user}}
+
 start on {{start}}
 stop on {{stop}}
-{{#if user}}
-setuid {{user}}
-{{/if}}
+
 {{#if files}}
 limit nofile {{files}} {{files}}
 {{/if}}
+
 {{#if log}}
 console log
 {{/if}}
-script
-  {{#if cwd}}
-  mkdir -p {{cwd}}
-  cd {{cwd}}
-  {{/if}}
-  {{cmd}}
-end script
+
+exec start-stop-daemon --start --make-pidfile --pidfile /var/run/{{name}}.pid --chuid $USER --exec {{cmd}}
+
 {{#if respawn}}
 respawn
 {{/if}}
+
+pre-start script
+  echo "[`date -u +%Y-%m-%dT%T.%3NZ`] {{name}} Starting"
+end script
+
+pre-stop script
+  echo "[`date -u +%Y-%m-%dT%T.%3NZ`] {{name}}  Stopping"
+end script
+
+post-start script
+  echo “===== {{name}} restarted ====="
+end script
+
